@@ -1,1 +1,94 @@
-<p>search works!</p>
+<div class="container">
+  <div class="flex items-center justify-between">
+    <div class="name">
+      <p class="text-3xl font-semibold">Hi, Good Morning !</p>
+    </div>
+
+    <div>
+      <form (ngSubmit)="onCitySelected($event, suggestions[0])">
+        <!-- Modify this line -->
+        <label
+          for="search"
+          class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Search</label
+        >
+        <div class="relative">
+          <div
+            class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3"
+          >
+            <svg
+              class="h-4 w-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+          </div>
+          <input
+            type="search"
+            id="searchControl"
+            [formControl]="searchControl"
+            class="block w-full min-w-80 rounded-3xl border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            placeholder="Search your Location"
+            required
+          />
+          <ul
+            id="suggestions"
+            class="absolute max-h-80 overflow-y-scroll custom-scrollbar z-10 mt-2 w-full rounded-lg border border-gray-300 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-700"
+          >
+            <li
+              *ngFor="let suggestion of suggestions"
+              (click)="onCitySelected($event, suggestion)"
+              class="flex cursor-pointer items-center justify-between p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+            >
+              <div class="flex items-center">
+                <img
+                  src="https://media2.dev.to/dynamic/image/quality=100/https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+                  alt="USA"
+                  class="mr-3 h-6 w-6 rounded-full"
+                />
+                <div>
+                  <div class="font-semibold text-gray-900 dark:text-white">
+                    {{ suggestion.name }}
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    Lat: {{ suggestion.latitude }}, Lon:
+                    {{ suggestion.longitude }}
+                  </div>
+                </div>
+              </div>
+              <div title="add to favourites">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-star hover:text-yellow-400"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"
+                  />
+                </svg>
+              </div>
+            </li>
+          </ul>
+          <button
+            type="submit"
+            class="absolute bottom-2.5 end-2.5 rounded-2xl bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
