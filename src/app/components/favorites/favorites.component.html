@@ -1,173 +1,48 @@
 <div class="bg-gray-50 col-span-2 p-5">
   <div class="flex justify-between items-center">
-    <p class="text-xl font-semibold">Other Cities</p>
+    <p class="text-xl font-semibold">Favorite Cities</p>
     <div class="relative inline-block w-auto min-w-36">
-      <select
-        class="block w-full appearance-none rounded-xl border border-gray-300 bg-gray-200 p-2 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
-      >
+      <select class="block w-full appearance-none rounded-xl border border-gray-300 bg-gray-200 p-2 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500">
         <option value="Temperature">Sort</option>
-
         <option value="Temperature">Temperature</option>
         <option value="City">City</option>
       </select>
-      <div
-        class="pointer-events-none absolute right-0 top-0 flex h-full items-center px-2"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="10"
-          height="10"
-          fill="currentColor"
-          class="bi bi-chevron-down"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
-          />
+      <div class="pointer-events-none absolute right-0 top-0 flex h-full items-center px-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
         </svg>
       </div>
     </div>
   </div>
   <div class="mt-2 h-52 custom-scrollbar overflow-y-scroll overflow-x-hidden space-y-3">
-    <div
-      class="relative flex items-center justify-between gap-5 px-5 py-4 hover:bg-blue-100 rounded-lg bg-gray-100 group"
-    >
-      <button
-        class="opacity-0 absolute top-1 z-50 right-1 bg-red-500 text-white group-hover:opacity-100 rounded-full text-xs transition-all duration-300 hover:bg-red-600 focus:outline-none"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="29"
-          height="28"
-          fill="currentColor"
-          class="bi bi-x-circle"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
-          />
-          <path
-            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"
-          />
-        </svg>
-      </button>
+    <ng-container *ngIf="favoriteCities.length > 0; else noFavoritesComponent">
+      <div *ngFor="let city of favoriteCities" class="relative flex items-center justify-between gap-5 px-5 py-4 hover:bg-blue-100 rounded-lg bg-gray-100 group">
+        <button (click)="removeFavoriteCity(city.id)" class="opacity-0 absolute top-1 z-50 right-1 bg-red-500 text-white group-hover:opacity-100 rounded-full text-xs transition-all duration-300 hover:bg-red-600 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="29" height="28" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+          </svg>
+        </button>
 
-      <div class="flex items-center gap-3">
-        <img
-          src="https://flagcdn.com/h120/ua.png"
-          class="h-10 w-10 rounded-full"
-        />
+        <div class="flex items-center gap-3">
+          <img src="https://flagcdn.com/h120/{{ city.country_code.toLowerCase() }}.png" class="h-10 w-10 rounded-full" />
+          <div>
+            <span class="font-semibold">{{city.name}}</span>, {{city.country}}
+            <p class="text-sm">{{city?.data?.currentWeather?.description}}</p>
+          </div>
+        </div>
+        <img src={{city?.data?.currentWeather?.image}} class="h-10" alt="Ukraine" />
+
         <div>
-          <span class="font-semibold">Sydney</span>, Australia
-          <p class="text-sm">Sunny</p>
+          <span class="text-xl font-semibold">{{city?.data?.maxTemperature}}°/</span>
+          <span class="text-md">{{city?.data?.minTemperature}}°</span>
         </div>
       </div>
-      <img
-        src="https://flagcdn.com/h120/ua.png"
-        srcset="https://flagcdn.com/h240/ua.png 2x"
-        class="h-10"
-        alt="Ukraine"
-      />
-
-      <div>
-        <span class="text-xl font-semibold">32°/</span>
-        <span class="text-md">20°</span>
+    </ng-container>
+    <ng-template #noFavoritesComponent>
+      <div class="flex items-center justify-center h-full">
+        <p class="text-lg font-semibold">No favorites yet</p>
       </div>
-    </div>
-
-   
-
-    <div
-    class="relative flex items-center justify-between gap-5 px-5 py-4 hover:bg-blue-100 rounded-lg bg-gray-100 group"
-  >
-    <button
-      class="opacity-0 absolute -top-3 z-50 -right-3 bg-red-500 text-white group-hover:opacity-100 rounded-full text-xs transition-all duration-300 hover:bg-red-600 focus:outline-none"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="29"
-        height="28"
-        fill="currentColor"
-        class="bi bi-x-circle"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
-        />
-        <path
-          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"
-        />
-      </svg>
-    </button>
-
-    <div class="flex items-center gap-3">
-      <img
-        src="https://flagcdn.com/h120/ua.png"
-        class="h-10 w-10 rounded-full"
-      />
-      <div>
-        <span class="font-semibold">Sydney</span>, Australia
-        <p class="text-sm">Sunny</p>
-      </div>
-    </div>
-    <img
-      src="https://flagcdn.com/h120/ua.png"
-      srcset="https://flagcdn.com/h240/ua.png 2x"
-      class="h-10"
-      alt="Ukraine"
-    />
-
-    <div>
-      <span class="text-xl font-semibold">32°/</span>
-      <span class="text-md">20°</span>
-    </div>
-  </div>
-  <div
-  class="relative flex items-center justify-between gap-5 px-5 py-4 hover:bg-blue-100 rounded-lg bg-gray-100 group"
->
-  <button
-    class="opacity-0 absolute -top-3 z-50 -right-3 bg-red-500 text-white group-hover:opacity-100 rounded-full text-xs transition-all duration-300 hover:bg-red-600 focus:outline-none"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="29"
-      height="28"
-      fill="currentColor"
-      class="bi bi-x-circle"
-      viewBox="0 0 16 16"
-    >
-      <path
-        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
-      />
-      <path
-        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"
-      />
-    </svg>
-  </button>
-
-  <div class="flex items-center gap-3">
-    <img
-      src="https://flagcdn.com/h120/ua.png"
-      class="h-10 w-10 rounded-full"
-    />
-    <div>
-      <span class="font-semibold">Sydney</span>, Australia
-      <p class="text-sm">Sunny</p>
-    </div>
-  </div>
-  <img
-    src="https://flagcdn.com/h120/ua.png"
-    srcset="https://flagcdn.com/h240/ua.png 2x"
-    class="h-10"
-    alt="Ukraine"
-  />
-
-  <div>
-    <span class="text-xl font-semibold">32°/</span>
-    <span class="text-md">20°</span>
-  </div>
-</div>
-
-  </div>
-</div>
+    </ng-template>
+  </div> 
+</div> 

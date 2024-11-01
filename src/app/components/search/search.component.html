@@ -6,7 +6,6 @@
 
     <div>
       <form (ngSubmit)="onCitySelected($event, suggestions[0])">
-        <!-- Modify this line -->
         <label
           for="search"
           class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -65,7 +64,7 @@
                   </div>
                 </div>
               </div>
-              <div title="add to favourites">
+              <div title="add to favourites" (click)="addCityIntoFavorites(suggestion)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

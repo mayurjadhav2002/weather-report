@@ -1,43 +1,74 @@
 <div class="col-span-1 rounded-xl bg-gray-100 p-5 hover:bg-gray-200/80">
-    <div class="flex items-center justify-between">
-      <div class="text-md flex items-center justify-center gap-2 rounded-xl bg-gray-200 px-4 py-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-          <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+  <div class="flex items-center justify-between">
+    <div
+      class="text-md flex items-center justify-center gap-2 rounded-xl bg-gray-200 px-4 py-2"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-geo-alt-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"
+        />
+      </svg>
+      {{ currentCity?.name }}, {{ currentCity?.country }}
+      <!-- Use safe navigation operator -->
+    </div>
+
+    <div class="relative inline-block w-12">
+      <select
+        class="block w-full appearance-none rounded-xl border border-gray-300 bg-gray-200 p-2 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
+      >
+        <option value="celsius">°C</option>
+        <option value="fahrenheit">°F</option>
+      </select>
+      <div
+        class="pointer-events-none absolute right-0 top-0 flex h-full items-center px-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="10"
+          height="10"
+          fill="currentColor"
+          class="bi bi-chevron-down"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+          />
         </svg>
-        Mumbai, India
-      </div>
-  
-      <div class="relative inline-block w-12">
-        <select class="block w-full appearance-none rounded-xl border border-gray-300 bg-gray-200 p-2 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500">
-          <option value="celsius">°C</option>
-          <option value="fahrenheit">°F</option>
-        </select>
-        <div class="pointer-events-none absolute right-0 top-0 flex h-full items-center px-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
-          </svg>
-        </div>
-      </div>
-    </div>
-  
-    <div class="m-1">
-      <p class="text-3xl font-semibold">Sunday</p>
-      <p class="text-sm">04 Aug, 2024</p>
-    </div>
-  
-    <div class="grid grid-cols-3 items-center -mt-10">
-      <div class="col-span-2 flex justify-end ">
-        <img class="w-28 " src="https://flagcdn.com/h120/ua.png" srcset="https://flagcdn.com/h240/ua.png 2x" alt="Ukraine"
-        
-         />
-      </div>
-      <div class="mr-2 text-right">
-        <p class="text-3xl font-bold">30° C</p>
-        <p class="-mt-1 text-lg">/24° C</p>
-  
-        <p class="mt-5 font-medium">Heavy Rain</p>
-        <p>Feels Like 31°</p>
       </div>
     </div>
   </div>
-  
+
+  <div class="m-1">
+    <p class="text-3xl font-semibold">Sunday</p>
+    <p class="text-sm">04 Aug, 2024</p>
+  </div>
+
+  <div class="grid grid-cols-3 items-center -mt-10">
+    <div class="col-span-2 flex justify-end">
+      <img
+        class="w-28"
+        src="{{ currentCity?.data?.currentWeather?.image }}"
+        alt="Ukraine"
+      />
+    </div>
+    <div class="mr-2 text-right">
+      <p class="text-3xl font-bold">
+        {{ currentCity?.data?.maxTemperature }}° C
+      </p>
+      <p class="-mt-1 text-lg">/{{ currentCity?.data?.minTemperature }}° C</p>
+
+      <p class="mt-5 font-medium">
+        {{ currentCity?.data?.currentWeather?.description }}
+      </p>
+      <p>Feels like {{ currentCity?.data?.currentWeather?.feelsLike }}°</p>
+    </div>
+  </div>
+</div>

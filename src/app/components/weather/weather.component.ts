@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
+import { City } from '../../types/main.types';
 
 @Component({
   selector: 'app-weather',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './weather.component.css'
 })
 export class WeatherComponent {
-
+  @Input() currentCity: City | null = null;
 }
