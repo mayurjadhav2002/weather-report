@@ -1,5 +1,5 @@
 <div class="p-3 bg-gray-100 rounded-xl">
     <h1 class="text-xl font-semibold">Temperature Trend</h1>
-    <canvas id="canvas">{{chart}}</canvas>
-
+    <div *ngIf="isLoading" class="text-center">Loading chart...</div>
+    <canvas id="canvas" #canvas *ngIf="!isLoading"></canvas> 
 </div>

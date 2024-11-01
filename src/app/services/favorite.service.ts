@@ -83,6 +83,7 @@ export class FavoriteService {
                         feelsLike: feelsLikeTemperature,
                         currentTemperature: currentWeather.temperature,
                     },
+                    hourly: data.hourly.temperature_2m,
                 };
                 city.updated_at = Date.now();
                 this.saveFavoriteCities(this.favoriteCities.getValue());

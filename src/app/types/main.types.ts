@@ -23,6 +23,10 @@ export interface WeatherApiResponse {
         temperature_2m_min: number[];
     };
     current_weather: CurrentWeather;
+    hourly: {
+        time: string[];
+        temperature_2m: number[];
+    }
 }
 
 export interface WeatherData {
@@ -36,6 +40,7 @@ export interface WeatherData {
         feelsLike: number;
         currentTemperature: number;
     } | null;
+    hourly?: any[] | null;
 }
 
 export interface City {
@@ -57,3 +62,8 @@ export interface City {
 }
 
 export type WeatherCode = 0 | 1 | 2 | 3 | 45 | 51 | 61 | 71;
+
+export interface HourlyData {
+    time: string;
+    temperature: number;
+}

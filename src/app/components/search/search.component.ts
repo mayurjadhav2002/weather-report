@@ -42,8 +42,9 @@ export class SearchComponent implements OnInit {
     this.suggestions = [];
   }
 
-  addCityIntoFavorites(city: City) {
-    this.favoriteService.addCityIntoFavorites({...city, lat:city.latitude, long:city.longitude});
+  addCityIntoFavorites(event: Event, city: City): void {
+    event.preventDefault();
+    this.favoriteService.addCityIntoFavorites({ ...city, lat: city.latitude, long: city.longitude });
   }
 
   refreshWeatherData(): void {

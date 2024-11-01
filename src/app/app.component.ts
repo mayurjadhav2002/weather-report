@@ -3,9 +3,17 @@ import { SearchComponent } from './components/search/search.component';
 import { WeatherComponent } from './components/weather/weather.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { ChartComponent } from './components/chart/chart.component';
-import { City, WeatherApiResponse, WeatherCode } from './types/main.types';
+import {
+  City,
+  HourlyData,
+  WeatherApiResponse,
+  WeatherCode,
+} from './types/main.types';
 import { WeatherService } from './services/weather.service';
-import { calculateFeelsLike, getWeatherDescriptionAndImage } from './utils/operations.functions';
+import {
+  calculateFeelsLike,
+  getWeatherDescriptionAndImage,
+} from './utils/operations.functions';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +29,7 @@ import { calculateFeelsLike, getWeatherDescriptionAndImage } from './utils/opera
 })
 export class AppComponent {
   title: string = 'Weather app';
-
+  hourlyData: any[] = [];
   currentCity: City = {
     id: 3175395,
     name: 'Italy',
@@ -41,10 +49,11 @@ export class AppComponent {
   }
 
   onCitySelected(city: City) {
-    this.currentCity = city;
     this.getWeatherDetails(city);
   }
   getWeatherDetails(city: City) {
+    this.currentCity = city;
+    const today = new Date().toISOString().split('T')[0];
     this.weatherReport
       .getWeatherReport(city.latitude, city.longitude)
       .subscribe({
@@ -52,16 +61,34 @@ export class AppComponent {
           if (data && data.current_weather) {
             const todayIndex = new Date().getUTCDate() - 1;
             const currentWeather = data.current_weather;
-  
-            const weatherCode = currentWeather.weathercode || 1; 
-            const { description, image } = getWeatherDescriptionAndImage(weatherCode as WeatherCode);
-            const feelsLikeTemperature = calculateFeelsLike(currentWeather.temperature, currentWeather.windspeed);
-  
+
+            this.hourlyData = data.hourly.time.reduce<any[]>(
+              (acc, time, index) => {
+                if (time.startsWith(today)) {
+                  acc.push(data.hourly.temperature_2m[index]);
+                }
+                return acc;
+              },
+              []
+            );
+            const weatherCode = currentWeather.weathercode || 1;
+            const { description, image } = getWeatherDescriptionAndImage(
+              weatherCode as WeatherCode
+            );
+            const feelsLikeTemperature = calculateFeelsLike(
+              currentWeather.temperature,
+              currentWeather.windspeed
+            );
+
             this.currentCity.data = {
               minTemperature: data.daily.temperature_2m_min[todayIndex],
               maxTemperature: data.daily.temperature_2m_max[todayIndex],
-              upcomingTemperatures: data.daily.temperature_2m_max.slice(todayIndex + 1),
-              upcomingMinTemperatures: data.daily.temperature_2m_min.slice(todayIndex + 1),
+              upcomingTemperatures: data.daily.temperature_2m_max.slice(
+                todayIndex + 1
+              ),
+              upcomingMinTemperatures: data.daily.temperature_2m_min.slice(
+                todayIndex + 1
+              ),
               currentWeather: {
                 description: description,
                 image: image,
@@ -77,11 +104,8 @@ export class AppComponent {
           console.error('Error fetching weather data:', error);
         },
         complete: () => {
-          console.log('Weather data fetched successfully');}
+          console.log('Weather data fetched successfully');
+        },
       });
   }
-  
-  
-
 }
-

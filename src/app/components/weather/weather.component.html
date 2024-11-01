@@ -16,11 +16,10 @@
         />
       </svg>
       {{ currentCity?.name }}, {{ currentCity?.country }}
-      <!-- Use safe navigation operator -->
     </div>
 
     <div class="relative inline-block w-12">
-      <select
+      <select (change)="onUnitChange($event)" 
         class="block w-full appearance-none rounded-xl border border-gray-300 bg-gray-200 p-2 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
       >
         <option value="celsius">°C</option>
@@ -47,8 +46,8 @@
   </div>
 
   <div class="m-1">
-    <p class="text-3xl font-semibold">Sunday</p>
-    <p class="text-sm">04 Aug, 2024</p>
+    <p class="text-3xl font-semibold">{{currentDay}}</p>
+    <p class="text-sm">{{currentDate}}</p>
   </div>
 
   <div class="grid grid-cols-3 items-center -mt-10">
@@ -61,9 +60,9 @@
     </div>
     <div class="mr-2 text-right">
       <p class="text-3xl font-bold">
-        {{ currentCity?.data?.maxTemperature }}° C
+        {{ convertTemperature(currentCity?.data?.maxTemperature) | number: '1.0-1' }}° {{ temperatureUnit === 'celsius' ? '°C' : 'F' }}
       </p>
-      <p class="-mt-1 text-lg">/{{ currentCity?.data?.minTemperature }}° C</p>
+      <p class="-mt-1 text-lg">/ {{ convertTemperature(currentCity?.data?.minTemperature) | number: '1.0-1' }}° {{ temperatureUnit === 'celsius' ? '°C' : 'F' }}</p>
 
       <p class="mt-5 font-medium">
         {{ currentCity?.data?.currentWeather?.description }}

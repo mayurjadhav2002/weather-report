@@ -6,7 +6,7 @@ import {WeatherApiResponse} from '../types/main.types'
     providedIn: 'root',
 })
 export class WeatherService{
-    private api = 'https://api.open-meteo.com/v1/forecast?daily=temperature_2m_max,temperature_2m_min&timezone=Europe/Berlin&current_weather=true'
+    private api = 'https://api.open-meteo.com/v1/forecast?daily=temperature_2m_max,temperature_2m_min&timezone=Europe/Berlin&current_weather=true&hourly=temperature_2m'
     constructor(private http:HttpClient){}
 
     getWeatherReport(lat:number|string|undefined, long:number|string|undefined): Observable<WeatherApiResponse>{

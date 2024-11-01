@@ -1,57 +1,70 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-chart',
   standalone: true,
-  imports: [],
   templateUrl: './chart.component.html',
-  styleUrl: './chart.component.css'
+  styleUrls: ['./chart.component.css'],
+  imports: [CommonModule]
 })
-export class ChartComponent {
-
-  title = 'ng-chart';
-  chart: any = [];
+export class ChartComponent implements OnChanges {
+  @Input() temperatureData: number[] | null | undefined = [];
+  public labels: string[] = [
+    '12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM',
+    '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'
+  ];
+  chart: any;
+  isLoading: boolean = true; 
 
   constructor() {}
-  public chartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Temperature Trend',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }
-    ]
-  };
-  ngOnInit() {
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['temperatureData']) {
+      this.isLoading = true;
+      this.createChart();
+    }
+  }
+
+  private createChart() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
     this.chart = new Chart('canvas', {
-      type: 'bar',
+      type: 'line', 
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: this.labels, 
         datasets: [
           {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1,
-          },
-        ],
+            data: this.temperatureData || [], 
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+          }
+        ]
       },
       options: {
+        responsive: true,
         scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Time (Hourly)'
+            }
+          },
           y: {
             beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Temperature (°C)'
+            }
           },
         },
       },
     });
+
+    this.isLoading = false;
   }
-
-
-
-
-
-
 }
