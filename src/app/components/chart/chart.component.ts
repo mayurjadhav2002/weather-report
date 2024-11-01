@@ -47,6 +47,12 @@ export class ChartComponent implements OnChanges {
       },
       options: {
         responsive: true,
+        plugins: {
+          legend: {
+            display: false 
+          }
+        },
+  
         scales: {
           x: {
             title: {

@@ -16,7 +16,7 @@ import { City } from '../../types/main.types';
 export class SearchComponent implements OnInit {
   searchControl = new FormControl();
   suggestions: any[] = [];
-
+  isInputFocused: boolean = false;
   @Output() citySelected = new EventEmitter<any>();
 
   constructor(
@@ -35,6 +35,18 @@ export class SearchComponent implements OnInit {
       });
   }
 
+  hasSuggestions(): boolean {
+    return this.suggestions && this.suggestions.length > 0;
+  }
+  onInputFocus() {
+    this.isInputFocused = true; 
+  }
+
+  onInputBlur() {
+    this.isInputFocused = false;
+  }
+
+
   onCitySelected(event: Event, suggestion: any) {
     event.preventDefault();
     this.citySelected.emit(suggestion);
@@ -42,9 +54,24 @@ export class SearchComponent implements OnInit {
     this.suggestions = [];
   }
 
-  addCityIntoFavorites(event: Event, city: City): void {
-    event.preventDefault();
-    this.favoriteService.addCityIntoFavorites({ ...city, lat: city.latitude, long: city.longitude });
+  isFav(cityId: number | string){
+    return this.favoriteService.isFavorite(cityId)
+  }
+
+  addCityIntoFavorites(event: Event, suggestion: any) {
+    event.stopPropagation(); 
+    const isFav = this.isFav(suggestion.id);
+    if (isFav) {
+      this.favoriteService.removeFavoriteCity(suggestion.id); 
+      this.showToast(`${suggestion.name} removed from favorites!`);
+    } else {
+      this.favoriteService.addCityIntoFavorites(suggestion);
+      this.showToast(`${suggestion.name} added to favorites!`);
+    }
+  }
+
+  showToast(message: string) {
+    console.log(message);
   }
 
   refreshWeatherData(): void {

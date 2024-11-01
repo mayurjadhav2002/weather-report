@@ -28,6 +28,10 @@ export class FavoriteService {
         }
     }
 
+    isFavorite(cityId: string | number): boolean {
+        return this.favoriteCities.getValue().some(city => city.id === cityId);
+      }
+    
     addCityIntoFavorites(city: City) {
         const newFavoriteCity = {
             ...city,
@@ -37,7 +41,7 @@ export class FavoriteService {
         const currentCities = this.favoriteCities.getValue();
         currentCities.push(newFavoriteCity);
         this.saveFavoriteCities(currentCities);
-        this.fetchWeatherDetails(city.lat, city.long, newFavoriteCity);
+        this.fetchWeatherDetails(city.latitude, city.longitude, newFavoriteCity);
     }
 
     refreshWeatherData(): void {
@@ -99,5 +103,19 @@ export class FavoriteService {
         const currentCities = this.favoriteCities.getValue();
         const updatedFavorites = currentCities.filter((city: City) => city.id !== id);
         this.saveFavoriteCities(updatedFavorites);
+    }
+
+    sortFavoriteCities(sortBy: string) {
+        const allCities = this.favoriteCities.getValue();
+        const sortedCities = allCities.slice().sort((a,b)=>{
+            if(sortBy === 'Temperature'){
+                return (b.data?.maxTemperature||0) - (a.data?.maxTemperature||0)
+            }else if(sortBy === 'City'){
+                return a.name.localeCompare(b.name)
+            }else{
+                return (b.updated_at || 0) - (a.updated_at || 0)
+            }
+        })
+        this.favoriteCities.next(sortedCities)
     }
 }

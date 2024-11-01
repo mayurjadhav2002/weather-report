@@ -22,7 +22,11 @@ export class FavoritesComponent {
     this.loadFavoriteCities();
     this.refreshWeatherData();
   }
-
+  onSortChange(event: Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    this.favoriteService.sortFavoriteCities(value);
+  }
+  
   loadFavoriteCities() {
     this.favoriteService.favoriteCities$.subscribe((cities)=>{
       this.favoriteCities = cities

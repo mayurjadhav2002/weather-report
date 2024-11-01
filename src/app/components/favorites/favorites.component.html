@@ -2,8 +2,8 @@
   <div class="flex justify-between items-center">
     <p class="text-xl font-semibold">Favorite Cities</p>
     <div class="relative inline-block w-auto min-w-36">
-      <select class="block w-full appearance-none rounded-xl border border-gray-300 bg-gray-200 p-2 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500">
-        <option value="Temperature">Sort</option>
+      <select (change)="onSortChange($event)" class="block w-full appearance-none rounded-xl border border-gray-300 bg-gray-200 p-2 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500">
+        <option value="Timestamp">Sort</option>
         <option value="Temperature">Temperature</option>
         <option value="City">City</option>
       </select>
