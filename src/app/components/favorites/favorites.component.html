@@ -1,4 +1,4 @@
-<div class="bg-gray-50 col-span-2 p-5">
+<div class="bg-gray-100 col-span-2 p-5">
   <div class="flex justify-between items-center">
     <p class="text-xl font-semibold">Favorite Cities</p>
     <div class="relative inline-block w-auto min-w-36">
@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-  <div class="mt-2 h-52 custom-scrollbar overflow-y-scroll overflow-x-hidden space-y-3">
+  <div class="mt-2 h-60 custom-scrollbar overflow-y-scroll overflow-x-hidden space-y-3">
     <ng-container *ngIf="favoriteCities.length > 0; else noFavoritesComponent">
       <div *ngFor="let city of favoriteCities" class="relative flex items-center justify-between gap-5 px-5 py-4 hover:bg-blue-100 rounded-lg bg-gray-100 group">
         <button (click)="removeFavoriteCity(city.id)" class="opacity-0 absolute top-1 z-50 right-1 bg-red-500 text-white group-hover:opacity-100 rounded-full text-xs transition-all duration-300 hover:bg-red-600 focus:outline-none">

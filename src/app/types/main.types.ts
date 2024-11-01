@@ -1,7 +1,10 @@
 export interface CurrentWeather {
     temperature: number;
     windspeed: number;
-    weathercode: number;
+    weathercode: WeatherCode;
+    humidity?: number;
+    pressure?: number;
+    visibility?: number;
 }
 
 export interface WeatherApiResponse {
@@ -22,25 +25,31 @@ export interface WeatherApiResponse {
         temperature_2m_max: number[];
         temperature_2m_min: number[];
     };
-    current_weather: CurrentWeather;
+    current: any;
+    current_weather: CurrentWeather; 
     hourly: {
         time: string[];
         temperature_2m: number[];
-    }
+        relative_humidity_2m: number[];
+    };
 }
 
 export interface WeatherData {
-    minTemperature: number;
-    maxTemperature: number;
-    upcomingTemperatures: number[];
-    upcomingMinTemperatures: number[];
+    minTemperature: number | null; 
+    maxTemperature: number | null; 
+    upcomingTemperatures: number[]; 
+    upcomingMinTemperatures: number[] | null;
     currentWeather?: {
         description: string;
         image: string;
         feelsLike: number;
         currentTemperature: number;
-    } | null;
-    hourly?: any[] | null;
+        windSpeed?: number;
+        humidity?: number;
+        pressure?: number;
+        visibility?: number;
+    } | null; 
+    hourly?: Array<HourlyData> | number[] | null; 
 }
 
 export interface City {
@@ -48,22 +57,22 @@ export interface City {
     name: string;
     lat?: number | string | undefined;
     long?: number | string | undefined;
-    latitude: number | string;
-    longitude: number | string;
+    latitude: number | string; 
+    longitude: number | string; 
     elevation: number;
-    feature_code: string;
-    country_code: string;
-    timezone: string;
+    feature_code: string; 
+    country_code: string; 
+    timezone: string; 
     population: number;
-    country_id: number;
+    country_id: number; 
     country: string;
     data?: WeatherData | null; 
-    updated_at?: number | null;
+    updated_at?: number | null; 
 }
 
 export type WeatherCode = 0 | 1 | 2 | 3 | 45 | 51 | 61 | 71;
-
 export interface HourlyData {
     time: string;
     temperature: number;
+    relative_humidity_2m?: number; 
 }

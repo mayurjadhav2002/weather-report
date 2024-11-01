@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { CitySuggestionService } from '../../services/suggestion.service';
@@ -14,15 +14,19 @@ import { City } from '../../types/main.types';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit {
+  @ViewChild('searchControl', { static: false }) searchInput!: ElementRef;
   searchControl = new FormControl();
   suggestions: any[] = [];
   isInputFocused: boolean = false;
   @Output() citySelected = new EventEmitter<any>();
-
+  greeting: string;
   constructor(
     private suggestionService: CitySuggestionService,
     private favoriteService: FavoriteService
-  ) {}
+  ) {
+    this.greeting = this.getGreeting();
+
+  }
 
   ngOnInit() {
     this.searchControl.valueChanges
@@ -51,6 +55,7 @@ export class SearchComponent implements OnInit {
     event.preventDefault();
     this.citySelected.emit(suggestion);
     this.searchControl.setValue('');
+    this.searchInput.nativeElement.focus(); 
     this.suggestions = [];
   }
 
@@ -80,5 +85,16 @@ export class SearchComponent implements OnInit {
 
   removeFavoriteCity(id: number | string) {
     this.favoriteService.removeFavoriteCity(id);
+  }
+
+  getGreeting(): string {
+    const currentHour = new Date().getHours(); 
+    if (currentHour < 12) {
+      return 'Good Morning!';
+    } else if (currentHour < 18) {
+      return 'Good Afternoon!';
+    } else {
+      return 'Good Evening!';
+    }
   }
 }
