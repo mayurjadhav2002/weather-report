@@ -1,8 +1,6 @@
 <div class="col-span-1 rounded-xl bg-gray-100 p-5 hover:bg-gray-200/80">
   <div class="flex items-center justify-between">
-    <div
-      class="text-md flex items-center justify-center gap-2 rounded-xl bg-gray-200 px-4 py-2"
-    >
+    <div class="text-md flex items-center justify-center gap-2 rounded-xl bg-gray-200 px-4 py-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -25,9 +23,7 @@
         <option value="celsius">°C</option>
         <option value="fahrenheit">°F</option>
       </select>
-      <div
-        class="pointer-events-none absolute right-0 top-0 flex h-full items-center px-2"
-      >
+      <div class="pointer-events-none absolute right-0 top-0 flex h-full items-center px-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="10"
@@ -46,8 +42,8 @@
   </div>
 
   <div class="m-1">
-    <p class="text-3xl font-semibold">{{currentDay}}</p>
-    <p class="text-sm">{{currentDate}}</p>
+    <p class="text-3xl font-semibold">{{ currentDay }}</p>
+    <p class="text-sm">{{ currentDate }}</p>
   </div>
 
   <div class="grid grid-cols-3 items-center -mt-10">
@@ -55,19 +51,21 @@
       <img
         class="w-28"
         src="{{ currentCity?.data?.currentWeather?.image }}"
-        alt="Ukraine"
+        alt="Weather image"
       />
     </div>
     <div class="mr-2 text-right">
       <p class="text-3xl font-bold">
-        {{ convertTemperature(currentCity?.data?.maxTemperature) | number: '1.0-1' }}° {{ temperatureUnit === 'celsius' ? '°C' : 'F' }}
+        {{ convertTemperature(currentCity?.data?.maxTemperature ?? null) | number: '1.0-1' }}° {{ temperatureUnit === 'celsius' ? 'C' : 'F' }}
       </p>
-      <p class="-mt-1 text-lg">/ {{ convertTemperature(currentCity?.data?.minTemperature) | number: '1.0-1' }}° {{ temperatureUnit === 'celsius' ? '°C' : 'F' }}</p>
+      <p class="-mt-1 text-lg">
+        / {{ convertTemperature(currentCity?.data?.minTemperature ?? null) | number: '1.0-1' }}° {{ temperatureUnit === 'celsius' ? 'C' : 'F' }}
+      </p>
 
       <p class="mt-5 font-medium">
         {{ currentCity?.data?.currentWeather?.description }}
       </p>
-      <p>Feels like {{ currentCity?.data?.currentWeather?.feelsLike }}°</p>
+      <p>Feels like {{ convertTemperature(currentCity?.data?.currentWeather?.feelsLike ?? null) | number: '1.0-1' }}°</p>
     </div>
   </div>
 </div>

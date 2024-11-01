@@ -21,10 +21,10 @@ export class WeatherComponent {
     this.currentDate = now.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
-  convertTemperature(temp: number | undefined): number | null {
-    if (temp === undefined) return null;
+  convertTemperature(temp: number | null | undefined): number | null {
+    if (temp === null || temp === undefined) return null;
     return this.temperatureUnit === 'fahrenheit' ? (temp * 9 / 5) + 32 : temp;
-  }
+}
   
   onUnitChange(event: Event): void {
     this.temperatureUnit = (event.target as HTMLSelectElement).value as 'celsius' | 'fahrenheit';
