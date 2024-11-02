@@ -1,17 +1,17 @@
-<div class="p-10">
+<div class="p-4 md:p-10">
   <app-search (citySelected)="onCitySelected($event)"></app-search>
-  <div class="grid grid-cols-3 gap-4 mt-5">
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
     <div class="flex flex-col gap-5">
       <app-weather [currentCity]="currentCity"></app-weather>
       <app-favorites></app-favorites>
     </div>
-    <div class="col-span-2 ">
-
-      <div class="flex flex-col justify-between gap-5">
+    
+    <div class="md:col-span-2">
+      <div class="flex flex-col gap-5">
         <app-stats [weatherDetails]="weatherDetails"></app-stats>
         <app-chart [temperatureData]="hourlyData || []"></app-chart>
       </div>
-      
     </div>
   </div>
 </div>
